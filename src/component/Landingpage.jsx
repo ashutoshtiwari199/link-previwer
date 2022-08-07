@@ -14,6 +14,9 @@ function Landingpage() {
   }
 
   const previewfn = () => {
+    if(!link){
+      alert("Please paste the link")
+    } else{
     setIsLoading(true)
     fetch(`https://api.linkpreview.net/?key=${apiKey}&q=${link}`)
       .then(res => res.json())
@@ -30,13 +33,13 @@ function Landingpage() {
         setSearchHistory(a);
         setIsLoading(false)
       }
-      )
+      )}
   }
 
   return (
     <div className='form'>
       <input className='input-link' placeholder='Paste url..' onChange={(e) => { handleChange(e) }} value={link} type="text" />
-      <button onClick={previewfn} className='preview-button' >{isLoading ? 'Sending...' : 'Preview  Now'}</button>
+      <button type='button' onClick={previewfn} className='preview-button'  >{isLoading ? 'Sending...' : 'Preview  Now'}</button>
     </div>
   )
 }
