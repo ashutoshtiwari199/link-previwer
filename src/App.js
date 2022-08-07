@@ -1,23 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import { Fragment } from 'react';
+import { useState } from 'react';
+import { createContext } from 'react';
+import Landingpage from './component/Landingpage';
+import Incardpreview from './component/Incardpreview';
+import Loader from './component/Loader';
+import Previewcard from './component/Previewcard';
+
+
+export const UserContext = createContext();
 
 function App() {
+
+  const [isLoading, setIsLoading]= useState(false);
+  const [searchHistory, setSearchHistory] = useState([]);
+  const [link, setLink] = useState('')
+
+ 
+
+  const [jsonData, setJsondata]= useState({})
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p className='name' >Link-Previewer</p>
+      <UserContext.Provider value={{jsonData, setJsondata, isLoading, setIsLoading, setSearchHistory, searchHistory, link, setLink}} >
+        <Landingpage />
+        {jsonData.title == undefined ? <h1 className='empty-link' >Please paste your link</h1> :
+        !isLoading ? 
+          <Incardpreview />
+          : <Loader/>
+        }
+      <Previewcard/>
+      </UserContext.Provider>
     </div>
   );
 }
